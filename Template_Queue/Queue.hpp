@@ -26,6 +26,11 @@ public:
 		return items.back();
 	}
 
+	int Size()
+	{
+		return items.size();
+	}
+
 private:
 	std::list<T> items;
 };

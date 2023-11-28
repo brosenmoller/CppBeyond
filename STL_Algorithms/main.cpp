@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <iomanip>
+#include <cmath>
 
 template <typename T>
 void PrintVector(const std::vector<T> vector, std::string start = "")
@@ -85,20 +86,18 @@ int main()
         std::vector<double> numbers{ 10, 324422, 6, -23, 234.5, 654.1, 3.1242, -9.23, 635 };
         // 2) voor alle elementen te bepalen of ze even of oneven zijn
 
-        std::vector<bool> evenOrOdd;
-
         std::cout << std::endl << "Number Exercise 2: " << std::endl;
 
         std::for_each(numbers.begin(), numbers.end(), 
-            [&evenOrOdd](const int& number)
+            [](const double& number)
             {
-                if (number % 2 == 0)
+                if ((int)number % 2 == 0)
                 {
-                    std::cout << std::setprecision(2) << number << ": " << "is even" << std::endl;
+                    std::cout << std::setprecision(2) << std::fixed << number << ": " << "is even" << std::endl;
                 }
                 else
                 {
-                    std::cout << std::setprecision(2) << number << ": " << "is uneven" << std::endl;
+                    std::cout << std::setprecision(2) << std::fixed << number << ": " << "is uneven" << std::endl;
                 }
             }
         );
@@ -108,6 +107,31 @@ int main()
     {
         std::vector<double> numbers{ 10, 324422, 6, -23, 234.5, 654.1, 3.1242, -9.23, 635 };
         // 3) de som, het gemiddelde, en het product van alle getallen te berekenen
+        
+        std::cout << std::endl << "Number Exercise 3: " << std::endl;
+
+        double sum = 0.0;
+
+        for(auto it = numbers.begin(); it != numbers.end(); ++it)
+        {
+            sum += *it;
+        }
+
+        std::cout << std::setprecision(2) << std::fixed << "Sum is: " << sum << std::endl;
+
+        double average = sum / (double)numbers.size();
+
+        std::cout << std::setprecision(2) << std::fixed << "Average is: " << average << std::endl;
+
+        double product = 1.0;
+
+        for(auto it = numbers.begin(); it != numbers.end(); ++it)
+        {
+            product *= *it;
+        }
+
+        std::cout << std::setprecision(2) << std::fixed << "Product is: " << product << std::endl;
+
     }
 
     return 0;

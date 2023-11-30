@@ -1,32 +1,25 @@
 #include "Matrix.hpp"
 
-Matrix::Matrix(sf::RenderWindow* window) : window(window)
+Matrix::Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies) : window(window), strategies(strategies)
 {
 	for (int x = 0; x < GRID_SIZE; x++)
 	{
 		for (int y = 0; y < GRID_SIZE; y++)
 		{
-			int random = std::rand() % 5;
+			int random = std::rand() % RANDOM;
 
 			if (random == 1) { grid[x][y] = 1; }
 			else { grid[x][y] = 0; }
-		}
-	}
 
-	for (int x = 0; x < GRID_SIZE; x++)
-	{
-		for (int y = 0; y < GRID_SIZE; y++)
-		{
 			sf::CircleShape shape = sf::CircleShape((SCREEN_SIZE / GRID_SIZE) / 2);
-			shape.setFillColor(sf::Color(150, 50, 250));
+			shape.setFillColor(OBJECT_COLOR);
 			shape.setPosition(sf::Vector2f(x * (SCREEN_SIZE / GRID_SIZE), y * (SCREEN_SIZE / GRID_SIZE)));
 
 			shapeGrid[x][y] = shape;
 		}
 	}
-
-
 }
+#include <iostream>
 
 void Matrix::Update()
 {
@@ -34,21 +27,11 @@ void Matrix::Update()
 	{
 		for (int y = 0; y < GRID_SIZE; y++)
 		{
-			int count = GetNeighbourCount(x, y);
+			int neightbourCount = GetNeighbourCount(x, y);
 
-			if (grid[x][y] == 1)
+			for (int i = 0; i < strategies.size(); i++)
 			{
-				if (count < 2 || count > 3)
-				{
-					grid[x][y] = 0;
-				}
-			}
-			else
-			{
-				if (count == 3)
-				{
-					grid[x][y] = 1;
-				}
+				grid[x][y] = strategies[i]->operator()(grid[x][y], neightbourCount);
 			}
 		}
 	}

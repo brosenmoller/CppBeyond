@@ -9,13 +9,13 @@ class Matrix
 {
 private:
 	sf::RenderWindow* window;
-	std::vector<Strategy> strategies;
+	std::vector<Strategy*> &strategies;
 
 	int grid[GRID_SIZE][GRID_SIZE];
 	sf::CircleShape shapeGrid[GRID_SIZE][GRID_SIZE];
 
 public:
-	Matrix(sf::RenderWindow* window);
+	Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies);
 	~Matrix() = default;
 
 	void Update();

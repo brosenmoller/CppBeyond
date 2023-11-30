@@ -13,7 +13,13 @@ int WinMain()
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE, SCREEN_SIZE), "Game Of Life");
 	window->setFramerateLimit(FRAME_RATE);
 
-	Matrix matrix = Matrix(window);
+	auto strategies = std::vector<Strategy*>{
+		new OverpopulationStrategy(),
+		new UnderpopulationStrategy(),
+		new ReproductionStrategy()
+	};
+
+	Matrix matrix = Matrix(window, strategies);
 
 	bool isRunning = true;
 

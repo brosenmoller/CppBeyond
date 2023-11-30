@@ -19,7 +19,6 @@ Matrix::Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies) : w
 		}
 	}
 }
-#include <iostream>
 
 void Matrix::Update()
 {

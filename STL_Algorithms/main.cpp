@@ -5,6 +5,7 @@
 #include <functional>
 #include <iomanip>
 #include <cmath>
+#include <numeric>
 
 template <typename T>
 void PrintVector(const std::vector<T> vector, std::string start = "")
@@ -28,14 +29,8 @@ int main()
     std::sort(colours.begin(), colours.end());
 
     auto purpleIterator = std::find(colours.begin(), colours.end(), "purple");
-    std::vector<std::string> prePurpleVector;
-    std::vector<std::string> postPurpleVector;
-
-    for (auto it = colours.begin(); it != colours.end(); ++it)
-    {
-        if (std::distance(it, purpleIterator) > 0) { prePurpleVector.push_back(*it); }
-        else if (it != purpleIterator) { postPurpleVector.push_back(*it); }
-    }
+    std::vector<std::string> prePurpleVector(colours.begin(), purpleIterator);
+    std::vector<std::string> postPurpleVector(purpleIterator, colours.end());
 
     PrintVector(prePurpleVector, "Pre Purple: ");
     PrintVector(postPurpleVector, "Post Purple: ");
@@ -48,7 +43,7 @@ int main()
         std::transform(colours.begin(), colours.end(), colours.begin(),
             [](std::string& string)
             {
-                string[0] = std::toupper(string[0]);
+                std::transform(string.begin(), string.end(), string.begin(), toupper);
                 return string;
             }
         );
@@ -60,8 +55,8 @@ int main()
         // 3) alle dubbele te verwijderen
 
         std::cout << std::endl << "String Exercise 3: " << std::endl;
-        std::set<std::string> set(colours.begin(), colours.end());
-        colours.assign(set.begin(), set.end());
+        auto duplicatesIterator = std::unique(colours.begin(), colours.end());
+        colours.erase(duplicatesIterator, colours.end());
 
         PrintVector(colours);
     }
@@ -72,14 +67,15 @@ int main()
         // 1) alle negatieve elementen te verwijderen
 
         std::cout << std::endl << "Number Exercise 1: " << std::endl;
-        std::remove_if(numbers.begin(), numbers.end(),
-            [](double number)
+
+        std::erase_if(numbers,
+            [](double number) -> bool
             {
                 return number < 0;
             }
         );
 
-        PrintVector(colours);
+        PrintVector(numbers);
     }
 
     {
@@ -110,12 +106,7 @@ int main()
         
         std::cout << std::endl << "Number Exercise 3: " << std::endl;
 
-        double sum = 0.0;
-
-        for(auto it = numbers.begin(); it != numbers.end(); ++it)
-        {
-            sum += *it;
-        }
+        double sum = std::accumulate(numbers.begin(), numbers.end(), 0.0);
 
         std::cout << std::setprecision(2) << std::fixed << "Sum is: " << sum << std::endl;
 
@@ -123,15 +114,9 @@ int main()
 
         std::cout << std::setprecision(2) << std::fixed << "Average is: " << average << std::endl;
 
-        double product = 1.0;
-
-        for(auto it = numbers.begin(); it != numbers.end(); ++it)
-        {
-            product *= *it;
-        }
+        double product = std::accumulate(numbers.begin(), numbers.end(), 1.0, std::multiplies<double>());
 
         std::cout << std::setprecision(2) << std::fixed << "Product is: " << product << std::endl;
-
     }
 
     return 0;

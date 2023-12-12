@@ -15,7 +15,7 @@ private:
 	sf::CircleShape shapeGrid[GRID_SIZE][GRID_SIZE];
 
 public:
-	Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies);
+	Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies, int randomDivider);
 	~Matrix() = default;
 
 	void Update();

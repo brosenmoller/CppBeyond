@@ -1,12 +1,12 @@
 #include "Matrix.hpp"
 
-Matrix::Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies) : window(window), strategies(strategies)
+Matrix::Matrix(sf::RenderWindow* window, std::vector<Strategy*> &strategies, int randomDivider) : window(window), strategies(strategies)
 {
 	for (int x = 0; x < GRID_SIZE; x++)
 	{
 		for (int y = 0; y < GRID_SIZE; y++)
 		{
-			int random = std::rand() % RANDOM;
+			int random = std::rand() % randomDivider;
 
 			if (random == 1) { grid[x][y] = 1; }
 			else { grid[x][y] = 0; }

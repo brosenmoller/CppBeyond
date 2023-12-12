@@ -21,7 +21,7 @@ public:
 	{
 		if (currentState == 1)
 		{
-			if (neightbourCount > 3)
+			if (neightbourCount > requiredNeighbours)
 			{
 				return 0;
 			}
@@ -32,6 +32,8 @@ public:
 
 class UnderpopulationStrategy : public Strategy
 {
+public:
+	UnderpopulationStrategy(int requiredNeighbours) : Strategy(requiredNeighbours) {}
 
 	int operator()(const int currentState, const int neightbourCount) const override
 	{
@@ -46,18 +48,34 @@ class UnderpopulationStrategy : public Strategy
 	}
 };
 
-class ReproductionStrategy : public Strategy
+class EqualsReproductionStrategy : public Strategy
 {
-private:
-	int requiredNeighbours;
 public:
-	ReproductionStrategy(int requiredNeighbours) : requiredNeighbours(requiredNeighbours) {}
+	EqualsReproductionStrategy(int requiredNeighbours) : Strategy(requiredNeighbours) {}
 
 	int operator()(const int currentState, const int neightbourCount) const override
 	{
 		if (currentState == 0)
 		{
 			if (neightbourCount == requiredNeighbours)
+			{
+				return 1;
+			}
+		}
+		return currentState;
+	}
+};
+
+class CompareReproductionStrategy : public Strategy
+{
+public:
+	CompareReproductionStrategy(int requiredNeighbours) : Strategy(requiredNeighbours) {}
+
+	int operator()(const int currentState, const int neightbourCount) const override
+	{
+		if (currentState == 0)
+		{
+			if (neightbourCount > requiredNeighbours)
 			{
 				return 1;
 			}

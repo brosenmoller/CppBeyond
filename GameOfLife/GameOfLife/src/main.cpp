@@ -13,13 +13,23 @@ int WinMain()
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE, SCREEN_SIZE), "Game Of Life");
 	window->setFramerateLimit(FRAME_RATE);
 
-	auto strategies = std::vector<Strategy*>{
-		new OverpopulationStrategy(2),
-		new UnderpopulationStrategy(),
-		new ReproductionStrategy(3)
+	auto conwayStrategy = std::vector<Strategy*>{
+		new OverpopulationStrategy(3),
+		new UnderpopulationStrategy(2),
+		new EqualsReproductionStrategy(3)
 	};
 
-	Matrix matrix = Matrix(window, strategies);
+	auto seedsStrategy = std::vector<Strategy*>{
+		new OverpopulationStrategy(-1),
+		new EqualsReproductionStrategy(2)
+	};
+
+	auto cellularAutomata = std::vector<Strategy*>{
+		new CompareReproductionStrategy(4),
+		new UnderpopulationStrategy(4)
+	};
+
+	Matrix matrix = Matrix(window, cellularAutomata, 2);
 
 	bool isRunning = true;
 

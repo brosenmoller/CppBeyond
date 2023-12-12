@@ -14,9 +14,9 @@ int WinMain()
 	window->setFramerateLimit(FRAME_RATE);
 
 	auto strategies = std::vector<Strategy*>{
-		new OverpopulationStrategy(),
+		new OverpopulationStrategy(2),
 		new UnderpopulationStrategy(),
-		new ReproductionStrategy()
+		new ReproductionStrategy(3)
 	};
 
 	Matrix matrix = Matrix(window, strategies);

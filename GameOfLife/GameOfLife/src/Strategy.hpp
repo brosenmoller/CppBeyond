@@ -4,13 +4,19 @@
 
 class Strategy
 {
+protected:
+	int requiredNeighbours;
 public:
+	Strategy(int requiredNeighbours) : requiredNeighbours(requiredNeighbours) {}
+
 	virtual int operator()(const int currentState, const int neightbourCount) const = 0;
 };
 
 class OverpopulationStrategy : public Strategy
 {
 public:
+	OverpopulationStrategy(int requiredNeighbours) : Strategy(requiredNeighbours) {}
+
 	int operator()(const int currentState, const int neightbourCount) const override
 	{
 		if (currentState == 1)
@@ -26,11 +32,12 @@ public:
 
 class UnderpopulationStrategy : public Strategy
 {
+
 	int operator()(const int currentState, const int neightbourCount) const override
 	{
 		if (currentState == 1)
 		{
-			if (neightbourCount < 2)
+			if (neightbourCount < requiredNeighbours)
 			{
 				return 0;
 			}
@@ -41,12 +48,16 @@ class UnderpopulationStrategy : public Strategy
 
 class ReproductionStrategy : public Strategy
 {
+private:
+	int requiredNeighbours;
 public:
+	ReproductionStrategy(int requiredNeighbours) : requiredNeighbours(requiredNeighbours) {}
+
 	int operator()(const int currentState, const int neightbourCount) const override
 	{
 		if (currentState == 0)
 		{
-			if (neightbourCount == 3)
+			if (neightbourCount == requiredNeighbours)
 			{
 				return 1;
 			}
